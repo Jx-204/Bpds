@@ -1,1 +1,1 @@
-camisa
+pantalon
