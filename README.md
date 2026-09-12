@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mi primer ToDo en Next.js
+Contribuidores: Jose Aguilar Diaz, Jahzeel celin Navarro, Cristian Castro 
 
-## Getting Started
+Universidad de la Costa.
 
-First, run the development server:
+Este proyecto es una versión muy sencilla y didáctica para que estudiantes principiantes aprendan a crear su primera aplicación con JavaScript y Next.js.
+
+La idea es mostrar de forma clara cómo:
+
+- crear un componente en React
+- guardar información con `useState`
+- manejar eventos del usuario
+- agregar, completar y eliminar tareas
+- entender la estructura básica de un proyecto Next.js
+
+## Captura de ejemplo
+
+![Vista previa de la app de tareas](./public/todo-screenshot.png)
+
+### Explicación de la pantalla
+
+La interfaz tiene cuatro partes principales:
+
+1. Título principal: indica que esta es una lista de tareas.
+2. Campo de texto: permite escribir una nueva tarea.
+3. Botón "Agregar": añade la tarea al listado.
+4. Lista de tareas: muestra cada actividad con opción de marcarla como completada o eliminarla.
+
+Esto ayuda a explicar que una app de tareas no es solo "texto en pantalla", sino que también responde a la interacción del usuario.
+
+---
+
+## ¿Qué aprenderás?
+
+### 1. Estado con useState
+En React, el estado sirve para guardar información que puede cambiar mientras la app está en ejecución.
+
+Por ejemplo:
+
+- lo que escribe el usuario
+- la lista de tareas
+- si una tarea está completada
+
+### 2. Eventos del usuario
+Cuando el usuario escribe o hace clic, se ejecuta una función.
+
+Ejemplo:
+
+- `onChange` para capturar lo que se escribe
+- `onClick` para agregar la tarea
+- `onKeyDown` para detectar Enter
+
+### 3. Renderizado condicional
+Si la lista está vacía, mostramos un mensaje diferente.
+
+Esto se hace con JavaScript dentro de JSX.
+
+---
+
+## Cómo correr el proyecto
+
+Abre la terminal en la carpeta del proyecto y ejecuta:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Luego abre esta URL en el navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Estructura del proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```text
+student-todo/
+├── app/
+│   ├── globals.css
+│   ├── layout.js
+│   └── page.js
+├── public/
+│   └── todo-screenshot.svg
+├── package.json
+├── README.md
+└── next.config.mjs
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Archivo principal a revisar
 
-## Deploy on Vercel
+El archivo más importante para practicar es:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `app/page.js`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aquí se encuentra la lógica de la lista de tareas:
+
+- definir el estado
+- agregar tareas
+- completar tareas
+- eliminar tareas
+
+---
+
+## Sugerencia de explicación para estudiantes
+
+Puedes decirles algo como:
+
+> Esta app parece simple, pero ya estamos usando conceptos básicos de JavaScript y React: variables, funciones, eventos, listas y estado. Eso es lo que hace que una aplicación web sea interactiva.
+
+---
+
+## Créditos
+
+Proyecto hecho para fines educativos y para enseñar a estudiantes que están dando sus primeros pasos con JavaScript y Next.js.
