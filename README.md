@@ -1,5 +1,5 @@
 # Mi primer ToDo en Next.js
-Contribuidores: Jose Aguilar Diaz, Jahzeel David Celin Navarro, Cristian Castro 
+Contribuidores: Jose Aguilar Diaz, Jahzeel David Celin Navarro, Cristian castro
 
 Universidad de la Costa.
 
@@ -13,11 +13,11 @@ La idea es mostrar de forma clara cómo:
 - agregar, completar y eliminar tareas
 - entender la estructura básica de un proyecto Next.js
 
-## Captura de ejemplo
+# Captura de ejemplo
 
 ![Vista previa de la app de tareas](./public/todo-screenshot.png)
 
-### Explicación de la pantalla
+## Explicación de la pantalla
 
 La interfaz tiene cuatro partes principales:
 
