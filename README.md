@@ -1,5 +1,5 @@
 # Mi primer ToDo en Next.js
-Contribuidores: Jose Aguilar Diaz, Jahzeel David Celin Navarro, Cristian castro
+Contribuidores: Jose Aguilar Diaz, Jahzeel David Celin Navarro, Cristian castro quintana
 
 Universidad de la Costa.
 
