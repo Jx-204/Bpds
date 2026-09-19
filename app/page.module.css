@@ -1,0 +1,277 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b3a 100%);
+  padding: 32px 16px;
+}
+
+.card {
+  width: min(100%, 720px);
+  background: #1e293b;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.titleGroup {
+  flex: 1;
+  min-width: 220px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a78bfa;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #f1f5f9;
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+}
+
+.statBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 12px 18px;
+  min-width: 84px;
+}
+
+.statNumber {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.inputRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.inputRow input {
+  flex: 1;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  outline: none;
+  background: #0f172a;
+  color: #e2e8f0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputRow input:focus {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18);
+}
+
+.inputRow button,
+.deleteButton {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.inputRow button {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white;
+  padding: 0 20px;
+  min-width: 120px;
+}
+
+.inputRow button:hover,
+.deleteButton:hover {
+  transform: translateY(-1px);
+}
+
+.listSection {
+  border-top: 1px solid #334155;
+  padding-top: 20px;
+}
+
+.listTitle {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  border: 1px solid #dbe3f0;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4b5563;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.filters button:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.activeFilter {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.taskLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.taskLabel input {
+  width: 18px;
+  height: 18px;
+  accent-color: #a78bfa;
+}
+
+.taskLabel span {
+  cursor: pointer;
+  flex: 1;
+}
+
+.editInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #a78bfa;
+  color: #e2e8f0;
+  font: inherit;
+  outline: none;
+  padding: 2px 0;
+}
+
+.completedText {
+  text-decoration: line-through;
+  color: #64748b;
+}
+
+.deleteButton {
+  background: #4c1d1d;
+  color: #fca5a5;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.emptyState {
+  padding: 24px 16px;
+  background: #0f172a;
+  border: 1px dashed #334155;
+  border-radius: 12px;
+  text-align: center;
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 24px 18px;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .stats {
+    width: 100%;
+  }
+
+  .statBox {
+    flex: 1;
+  }
+
+  .inputRow {
+    flex-direction: column;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .taskItem {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .deleteButton {
+    width: 100%;
+  }
+}
