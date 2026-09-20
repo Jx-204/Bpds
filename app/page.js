@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const STORAGE_KEY = "student-todo-tasks";
+const TRASH_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 días en milisegundos
+const TRASH_STORAGE_KEY = "student-todo-trash";
 
 export default function Home() {
   // task guarda lo que el usuario escribe en el input.
@@ -19,11 +21,20 @@ export default function Home() {
   ]);
   const [isTasksLoaded, setIsTasksLoaded] = useState(false);
 
+  // deletedTasks guarda las tareas eliminadas (la "caneca").
+  const [deletedTasks, setDeletedTasks] = useState([]);
+  const [isTrashLoaded, setIsTrashLoaded] = useState(false);
+
+  // showTrash controla si el panel de la caneca está abierto.
+  const [showTrash, setShowTrash] = useState(false);
+  const [trashAnimationKey, setTrashAnimationKey] = useState(0);
+
   // editingId guarda el id de la tarea que se está editando (null si ninguna).
   // editingText guarda el texto temporal mientras se edita.
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
 
+  // Cargamos tareas activas desde localStorage.
   useEffect(() => {
     const savedTasks = window.localStorage.getItem(STORAGE_KEY);
 
@@ -42,16 +53,47 @@ export default function Home() {
     setIsTasksLoaded(true);
   }, []);
 
+  // Cargamos tareas eliminadas desde localStorage.
+  useEffect(() => {
+    const savedTrash = window.localStorage.getItem(TRASH_STORAGE_KEY);
+
+    if (savedTrash) {
+      try {
+        const parsedTrash = JSON.parse(savedTrash);
+
+        if (Array.isArray(parsedTrash)) {
+          // Filtramos las tareas que ya pasaron los 30 días en la papelera.
+          const trashSinExpirar = parsedTrash.filter((item) => {
+            const tiempoTranscurrido = Date.now() - item.deletedAt;
+            return tiempoTranscurrido < TRASH_MAX_AGE_MS;
+          });
+
+          setDeletedTasks(trashSinExpirar);
+        }
+      } catch {
+        window.localStorage.removeItem(TRASH_STORAGE_KEY);
+      }
+    }
+
+    setIsTrashLoaded(true);
+  }, []);
+  
   useEffect(() => {
     if (isTasksLoaded) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     }
   }, [isTasksLoaded, tasks]);
 
+  useEffect(() => {
+    if (isTrashLoaded) {
+      window.localStorage.setItem(TRASH_STORAGE_KEY, JSON.stringify(deletedTasks));
+    }
+  }, [isTrashLoaded, deletedTasks]);
+
   // filter guarda cuál filtro está activo: "all", "pending" o "completed".
   const [filter, setFilter] = useState("all");
 
-  // Esta función se ejecuta cuando el usuario hace clic en "Agregar".
+  // Esta función se ejecuta al presionar Enter en el campo de nueva tarea.
   const handleAddTask = () => {
     // Si el texto está vacío o solo tiene espacios, no agregamos nada.
     if (!task.trim()) {
@@ -81,11 +123,50 @@ export default function Home() {
     );
   };
 
-  // Esta función elimina una tarea de la lista.
+  // Esta función mueve una tarea a la caneca en lugar de borrarla para siempre.
   const handleDeleteTask = (id) => {
+    const tareaAEliminar = tasks.find((item) => item.id === id);
+
+    if (!tareaAEliminar) return;
+
+    // Quitamos la tarea de la lista activa.
     setTasks((tareasAnteriores) =>
       tareasAnteriores.filter((item) => item.id !== id)
     );
+
+    // La agregamos a la caneca con la fecha de eliminación.
+    setDeletedTasks((papeleraAnterior) => [
+      { ...tareaAEliminar, deletedAt: Date.now() },
+      ...papeleraAnterior,
+    ]);
+    setTrashAnimationKey((currentKey) => currentKey + 1);
+  };
+
+  // Devuelve una tarea de la caneca a la lista activa.
+  const handleRestoreTask = (id) => {
+    const tareaARestaurar = deletedTasks.find((item) => item.id === id);
+
+    if (!tareaARestaurar) return;
+
+    setDeletedTasks((papeleraAnterior) =>
+      papeleraAnterior.filter((item) => item.id !== id)
+    );
+
+    // Quitamos el campo deletedAt al restaurarla.
+    const { deletedAt, ...tareaLimpia } = tareaARestaurar;
+    setTasks((tareasAnteriores) => [tareaLimpia, ...tareasAnteriores]);
+  };
+
+  // Elimina una tarea de la caneca de forma permanente.
+  const handlePermanentDelete = (id) => {
+    setDeletedTasks((papeleraAnterior) =>
+      papeleraAnterior.filter((item) => item.id !== id)
+    );
+  };
+
+  // Vacía toda la caneca de una vez.
+  const handleEmptyTrash = () => {
+    setDeletedTasks([]);
   };
 
   // Activa el modo edición para una tarea específica.
@@ -166,10 +247,6 @@ export default function Home() {
             }}
             aria-label="Nueva tarea"
           />
-
-          <button type="button" onClick={handleAddTask}>
-            Agregar
-          </button>
         </div>
 
         <div className={styles.filters}>
@@ -252,6 +329,97 @@ export default function Home() {
           )}
         </ul>
       </section>
+
+      {/* Botón flotante de la caneca / papelera */}
+      <button
+        type="button"
+        className={`${styles.trashButton} ${
+          deletedTasks.length > 0 ? styles.trashButtonHasItems : ""
+        }`}
+        onClick={() => setShowTrash(true)}
+        aria-label="Ver tareas eliminadas"
+      >
+        <span key={trashAnimationKey} className={styles.trashIcon}>
+          🗑️
+        </span>
+        {deletedTasks.length > 0 && (
+          <span className={styles.trashBadge}>{deletedTasks.length}</span>
+        )}
+      </button>
+
+      {/* Panel/modal de la caneca con las tareas eliminadas */}
+      {showTrash && (
+        <div
+          className={styles.trashOverlay}
+          onClick={() => setShowTrash(false)}
+        >
+          <div
+            className={styles.trashPanel}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className={styles.trashHeader}>
+              <h2>🗑️ Tareas eliminadas</h2>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={() => setShowTrash(false)}
+                aria-label="Cerrar papelera"
+              >
+                ✕
+              </button>
+            </div>
+
+            {deletedTasks.length === 0 ? (
+              <p className={styles.emptyState}>La caneca está vacía.</p>
+            ) : (
+              <>
+                <ul className={styles.list}>
+                  {deletedTasks.map((item) => (
+                    <li key={item.id} className={styles.taskItem}>
+  <div>
+    <span className={styles.completedText}>{item.text}</span>
+    <br />
+    <small>
+      {Math.max(
+        0,
+        Math.ceil((item.deletedAt + TRASH_MAX_AGE_MS - Date.now()) / (1000 * 60 * 60 * 24))
+      )}{" "}
+      días para eliminación permanente
+    </small>
+  </div>
+
+  <div className={styles.trashItemActions}>
+                        <button
+                          type="button"
+                          className={styles.restoreButton}
+                          onClick={() => handleRestoreTask(item.id)}
+                        >
+                          Restaurar
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.deleteButton}
+                          onClick={() => handlePermanentDelete(item.id)}
+                        >
+                          Eliminar definitivamente
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  className={styles.emptyTrashButton}
+                  onClick={handleEmptyTrash}
+                >
+                  Vaciar caneca
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

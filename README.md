@@ -1,4 +1,7 @@
 # Mi primer ToDo en Next.js
+Contribuidores: Jose Aguilar Diaz, Jahzeel Celin Navarro, Cristian Castro
+
+Universidad de la Costa.
 
 Este proyecto es una versión muy sencilla y didáctica para que estudiantes principiantes aprendan a crear su primera aplicación con JavaScript y Next.js.
 
@@ -12,16 +15,17 @@ La idea es mostrar de forma clara cómo:
 
 ## Captura de ejemplo
 
-![Vista previa de la app de tareas](./public/todo-screenshot.svg)
+![Vista previa de la app de tareas](./public/todo-screenshot.png)
 
 ### Explicación de la pantalla
 
-La interfaz tiene cuatro partes principales:
+La interfaz tiene cinco partes principales:
 
 1. Título principal: indica que esta es una lista de tareas.
 2. Campo de texto: permite escribir una nueva tarea.
-3. Botón "Agregar": añade la tarea al listado.
+3. Tecla Enter: añade la tarea al listado desde el campo de texto.
 4. Lista de tareas: muestra cada actividad con opción de marcarla como completada o eliminarla.
+5. Papelera: permite consultar, restaurar o eliminar definitivamente las tareas eliminadas.
 
 Esto ayuda a explicar que una app de tareas no es solo "texto en pantalla", sino que también responde a la interacción del usuario.
 
@@ -100,14 +104,6 @@ Aquí se encuentra la lógica de la lista de tareas:
 - agregar tareas
 - completar tareas
 - eliminar tareas
-
----
-
-## Sugerencia de explicación para estudiantes
-
-Puedes decirles algo como:
-
-> Esta app parece simple, pero ya estamos usando conceptos básicos de JavaScript y React: variables, funciones, eventos, listas y estado. Eso es lo que hace que una aplicación web sea interactiva.
 
 ---
 
